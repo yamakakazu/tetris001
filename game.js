@@ -161,7 +161,7 @@ class Game {
     }
     
     generateInitialBlocks() {
-        for (let row = ROWS - 12; row < ROWS; row++) {  // 8行目から19行目（下から12行）
+        for (let row = ROWS - 10; row < ROWS; row++) {  // 10行目から19行目（下から10行）
             const density = Math.random() * 0.4 + 0.4;
             const blocksToFill = Math.floor(COLS * density);
             const positions = [];
@@ -298,10 +298,10 @@ class Game {
         if (groupsToRemove.length > 0) {
             for (const group of groupsToRemove) {
                 const colorCount = this.countBlocksByColor(group.color);
-                this.removeAllColorBlocks(group.color);
+                const affectedColumns = this.removeAllColorBlocks(group.color);
                 this.score += 120 * colorCount;
+                this.applyGravityToColumns(affectedColumns);
             }
-            this.applyFullGravity();
         }
     }
     
@@ -318,6 +318,8 @@ class Game {
     }
     
     removeAllColorBlocks(color) {
+        const affectedColumns = new Set();
+        
         for (let row = 0; row < ROWS; row++) {
             for (let col = 0; col < COLS; col++) {
                 if (this.board[row][col] === color) {
@@ -337,9 +339,12 @@ class Game {
                     }
                     
                     this.board[row][col] = 0;
+                    affectedColumns.add(col);
                 }
             }
         }
+        
+        return Array.from(affectedColumns);
     }
     
     findConnectedBlocks(row, col, color, visited) {
@@ -360,6 +365,31 @@ class Game {
     }
     
     
+    applyGravityToColumns(columns) {
+        this.isAnimating = true;
+        const animationSteps = [];
+        
+        for (const col of columns) {
+            let writePos = ROWS - 1;
+            
+            for (let row = ROWS - 1; row >= 0; row--) {
+                if (this.board[row][col] !== 0) {
+                    if (row !== writePos) {
+                        animationSteps.push({
+                            color: this.board[row][col],
+                            fromRow: row,
+                            toRow: writePos,
+                            col: col
+                        });
+                        this.board[row][col] = 0;
+                    }
+                    writePos--;
+                }
+            }
+        }
+        
+        this.animateGravity(animationSteps);
+    }
     
     applyFullGravity(removedBlocks = null) {
         this.isAnimating = true;
