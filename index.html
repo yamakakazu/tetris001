@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>kakazu tetris</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -67,6 +67,40 @@
                         <li>Space : Pause</li>
                     </ul>
                 </div>
+            </div>
+        </div>
+        
+        <!-- Touch Controls for Mobile -->
+        <div class="touch-controls" id="touchControls">
+            <div class="controls-row controls-row-top">
+                <button class="control-btn btn-rotate" id="btnRotate">
+                    <svg width="30" height="30" viewBox="0 0 30 30">
+                        <path d="M15 5 L25 15 L15 25 L15 20 Q5 20 5 10 Q5 5 10 5" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                </button>
+                <button class="control-btn btn-pause" id="btnPause">
+                    <svg width="30" height="30" viewBox="0 0 30 30">
+                        <rect x="8" y="5" width="6" height="20" fill="currentColor"/>
+                        <rect x="16" y="5" width="6" height="20" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="controls-row controls-row-bottom">
+                <button class="control-btn btn-left" id="btnLeft">
+                    <svg width="30" height="30" viewBox="0 0 30 30">
+                        <path d="M20 5 L10 15 L20 25" stroke="currentColor" stroke-width="3" fill="none"/>
+                    </svg>
+                </button>
+                <button class="control-btn btn-down" id="btnDown">
+                    <svg width="30" height="30" viewBox="0 0 30 30">
+                        <path d="M5 10 L15 20 L25 10" stroke="currentColor" stroke-width="3" fill="none"/>
+                    </svg>
+                </button>
+                <button class="control-btn btn-right" id="btnRight">
+                    <svg width="30" height="30" viewBox="0 0 30 30">
+                        <path d="M10 5 L20 15 L10 25" stroke="currentColor" stroke-width="3" fill="none"/>
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
