@@ -1,9 +1,9 @@
 const COLS = 15;
-const ROWS = 30;
+const ROWS = 20;  // 30 - 10 = 20行
 let BLOCK_SIZE = 30;
 const TICK_SPEED = 500;
-const GAME_OVER_LINE = 10;
-const WIN_LINE = 27;
+const GAME_OVER_LINE = 3;  // 上から3行目
+const WIN_LINE = 17;      // 下から3行目（20 - 3 = 17）
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -161,7 +161,7 @@ class Game {
     }
     
     generateInitialBlocks() {
-        for (let row = ROWS - 6; row < ROWS; row++) {
+        for (let row = ROWS - 12; row < ROWS; row++) {  // 8行目から19行目（下から12行）
             const density = Math.random() * 0.4 + 0.4;
             const blocksToFill = Math.floor(COLS * density);
             const positions = [];
@@ -769,7 +769,7 @@ class Game {
         this.isGameOver = true;
         document.getElementById('finalScore').textContent = this.score;
         const reasonElement = document.getElementById('gameOverReason');
-        reasonElement.textContent = '勝利！すべてのブロックが下から3段以内に収まりました！';
+        reasonElement.textContent = '勝利！すべてのブロックが緑線より下に収まりました！';
         reasonElement.className = 'game-over-reason victory';
         document.querySelector('.game-over-content h2').className = 'victory';
         document.getElementById('gameOverOverlay').style.display = 'flex';

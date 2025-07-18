@@ -18,10 +18,25 @@
                     <h2>Next</h2>
                     <canvas id="nextCanvas" width="120" height="120"></canvas>
                 </div>
+                <div class="score-box">
+                    <h2>Score</h2>
+                    <div class="score-value" id="score">0</div>
+                </div>
+                <div class="game-rules">
+                    <h3>Game Rules</h3>
+                    <div class="rule-item">
+                        <div class="rule-title win-rule">勝利条件</div>
+                        <div class="rule-desc">全ブロックを緑線より下に</div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-title lose-rule">敗退条件</div>
+                        <div class="rule-desc">ブロックが赤線を超えたら敗退</div>
+                    </div>
+                </div>
             </div>
             
             <div class="game-board">
-                <canvas id="gameCanvas" width="450" height="900"></canvas>
+                <canvas id="gameCanvas" width="450" height="600"></canvas>
                 <div class="start-overlay" id="startOverlay">
                     <div class="start-content">
                         <h2>kakazu tetris</h2>
@@ -41,37 +56,11 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="side-panel right-panel">
-                <div class="score-box">
-                    <h2>Score</h2>
-                    <div class="score-value" id="score">0</div>
-                </div>
-                <div class="game-rules">
-                    <h3>Game Rules</h3>
-                    <div class="rule-item">
-                        <div class="rule-title win-rule">勝利条件</div>
-                        <div class="rule-desc">全ブロックを緑線より下に</div>
-                    </div>
-                    <div class="rule-item">
-                        <div class="rule-title lose-rule">敗退条件</div>
-                        <div class="rule-desc">ブロックが赤線を超えたら敗退</div>
-                    </div>
-                </div>
-                <div class="controls-info">
-                    <h3>Controls</h3>
-                    <ul>
-                        <li>← → : Move</li>
-                        <li>↑ : Rotate</li>
-                        <li>↓ : Fast Drop</li>
-                        <li>Space : Pause</li>
-                    </ul>
-                </div>
-            </div>
         </div>
-        
-        <!-- Touch Controls for Mobile -->
-        <div class="touch-controls" id="touchControls">
+    </div>
+    
+    <!-- Touch Controls for Mobile -->
+    <div class="touch-controls" id="touchControls">
             <div class="controls-row controls-row-top">
                 <button class="control-btn btn-rotate" id="btnRotate">
                     <svg width="30" height="30" viewBox="0 0 30 30">
