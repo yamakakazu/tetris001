@@ -825,52 +825,70 @@ class Game {
             e.stopPropagation();
         };
         
-        // Add touch event listeners
+        // Long press settings
+        const LONG_PRESS_DELAY = 200; // Initial delay before starting repeat
+        const REPEAT_INTERVAL = 50; // Interval between repeats
+        
+        // Long press handlers
+        const setupLongPress = (button, action) => {
+            let pressTimer = null;
+            let intervalTimer = null;
+            
+            const startPress = (e) => {
+                preventDefaults(e);
+                if (this.isGameOver || !this.isStarted || this.isPaused) return;
+                
+                // Execute action immediately
+                action();
+                
+                // Start long press after delay
+                pressTimer = setTimeout(() => {
+                    intervalTimer = setInterval(() => {
+                        if (!this.isGameOver && this.isStarted && !this.isPaused) {
+                            action();
+                        } else {
+                            clearInterval(intervalTimer);
+                        }
+                    }, REPEAT_INTERVAL);
+                }, LONG_PRESS_DELAY);
+            };
+            
+            const endPress = (e) => {
+                if (pressTimer) {
+                    clearTimeout(pressTimer);
+                    pressTimer = null;
+                }
+                if (intervalTimer) {
+                    clearInterval(intervalTimer);
+                    intervalTimer = null;
+                }
+            };
+            
+            // Touch events
+            button.addEventListener('touchstart', startPress);
+            button.addEventListener('touchend', endPress);
+            button.addEventListener('touchcancel', endPress);
+            
+            // Mouse events for PC
+            button.addEventListener('mousedown', startPress);
+            button.addEventListener('mouseup', endPress);
+            button.addEventListener('mouseleave', endPress);
+        };
+        
+        // Setup long press for movement buttons
         if (btnLeft) {
-            btnLeft.addEventListener('touchstart', (e) => {
-                preventDefaults(e);
-                if (!this.isGameOver && this.isStarted && !this.isPaused) {
-                    this.move(-1);
-                }
-            });
-            btnLeft.addEventListener('click', (e) => {
-                preventDefaults(e);
-                if (!this.isGameOver && this.isStarted && !this.isPaused) {
-                    this.move(-1);
-                }
-            });
+            setupLongPress(btnLeft, () => this.move(-1));
         }
         
         if (btnRight) {
-            btnRight.addEventListener('touchstart', (e) => {
-                preventDefaults(e);
-                if (!this.isGameOver && this.isStarted && !this.isPaused) {
-                    this.move(1);
-                }
-            });
-            btnRight.addEventListener('click', (e) => {
-                preventDefaults(e);
-                if (!this.isGameOver && this.isStarted && !this.isPaused) {
-                    this.move(1);
-                }
-            });
+            setupLongPress(btnRight, () => this.move(1));
         }
         
         if (btnDown) {
-            btnDown.addEventListener('touchstart', (e) => {
-                preventDefaults(e);
-                if (!this.isGameOver && this.isStarted && !this.isPaused) {
-                    this.drop();
-                }
-            });
-            btnDown.addEventListener('click', (e) => {
-                preventDefaults(e);
-                if (!this.isGameOver && this.isStarted && !this.isPaused) {
-                    this.drop();
-                }
-            });
+            setupLongPress(btnDown, () => this.drop());
         }
         
+        // Rotate and Pause buttons (single press only)
         if (btnRotate) {
             btnRotate.addEventListener('touchstart', (e) => {
                 preventDefaults(e);

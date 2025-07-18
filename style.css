@@ -335,7 +335,7 @@ button:active {
 
 /* Touch Controls */
 .touch-controls {
-    display: none;
+    display: block;
     position: fixed;
     bottom: 20px;
     left: 50%;
@@ -359,6 +359,7 @@ button:active {
     border-radius: 15px;
     color: #87ceeb;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: pointer;
@@ -366,15 +367,32 @@ button:active {
     box-shadow: 0 4px 20px rgba(100, 150, 255, 0.3);
     -webkit-tap-highlight-color: transparent;
     user-select: none;
+    padding: 5px;
+    position: relative;
 }
 
 .control-btn:active {
     background: rgba(100, 150, 255, 0.3);
     transform: scale(0.95);
+    box-shadow: 0 2px 10px rgba(100, 150, 255, 0.5);
+}
+
+.control-btn:hover {
+    background: rgba(50, 75, 100, 0.9);
+    border-color: rgba(150, 200, 255, 0.7);
 }
 
 .control-btn svg {
     pointer-events: none;
+    width: 25px;
+    height: 25px;
+}
+
+.btn-label {
+    font-size: 12px;
+    margin-top: 2px;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(135, 206, 235, 0.5);
 }
 
 /* Mobile and Tablet Responsive Design */
@@ -423,10 +441,6 @@ button:active {
         object-fit: contain;
     }
     
-    .touch-controls {
-        display: block;
-    }
-    
     .score-box {
         display: none;
     }
@@ -454,6 +468,15 @@ button:active {
     .control-btn {
         width: 60px;
         height: 60px;
+    }
+    
+    .control-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .btn-label {
+        font-size: 10px;
     }
     
     .touch-controls {
