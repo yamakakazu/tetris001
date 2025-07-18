@@ -71,6 +71,12 @@ class Game {
         this.drawNextPiece();
         this.draw();
         window.addEventListener('resize', () => this.resizeCanvas());
+        
+        // Initialize mobile score display
+        const gameHeader = document.querySelector('.game-header');
+        if (gameHeader) {
+            gameHeader.setAttribute('data-score', '0');
+        }
     }
     
     resizeCanvas() {
@@ -743,6 +749,11 @@ class Game {
     
     updateScore() {
         document.getElementById('score').textContent = this.score;
+        // Update mobile score display
+        const gameHeader = document.querySelector('.game-header');
+        if (gameHeader) {
+            gameHeader.setAttribute('data-score', this.score);
+        }
     }
     
     
@@ -796,6 +807,106 @@ class Game {
                     break;
             }
         });
+        
+        // Touch controls setup
+        this.setupTouchControls();
+    }
+    
+    setupTouchControls() {
+        const btnLeft = document.getElementById('btnLeft');
+        const btnRight = document.getElementById('btnRight');
+        const btnDown = document.getElementById('btnDown');
+        const btnRotate = document.getElementById('btnRotate');
+        const btnPause = document.getElementById('btnPause');
+        
+        // Prevent default touch behaviors
+        const preventDefaults = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        };
+        
+        // Add touch event listeners
+        if (btnLeft) {
+            btnLeft.addEventListener('touchstart', (e) => {
+                preventDefaults(e);
+                if (!this.isGameOver && this.isStarted && !this.isPaused) {
+                    this.move(-1);
+                }
+            });
+            btnLeft.addEventListener('click', (e) => {
+                preventDefaults(e);
+                if (!this.isGameOver && this.isStarted && !this.isPaused) {
+                    this.move(-1);
+                }
+            });
+        }
+        
+        if (btnRight) {
+            btnRight.addEventListener('touchstart', (e) => {
+                preventDefaults(e);
+                if (!this.isGameOver && this.isStarted && !this.isPaused) {
+                    this.move(1);
+                }
+            });
+            btnRight.addEventListener('click', (e) => {
+                preventDefaults(e);
+                if (!this.isGameOver && this.isStarted && !this.isPaused) {
+                    this.move(1);
+                }
+            });
+        }
+        
+        if (btnDown) {
+            btnDown.addEventListener('touchstart', (e) => {
+                preventDefaults(e);
+                if (!this.isGameOver && this.isStarted && !this.isPaused) {
+                    this.drop();
+                }
+            });
+            btnDown.addEventListener('click', (e) => {
+                preventDefaults(e);
+                if (!this.isGameOver && this.isStarted && !this.isPaused) {
+                    this.drop();
+                }
+            });
+        }
+        
+        if (btnRotate) {
+            btnRotate.addEventListener('touchstart', (e) => {
+                preventDefaults(e);
+                if (!this.isGameOver && this.isStarted && !this.isPaused) {
+                    this.rotatePiece();
+                }
+            });
+            btnRotate.addEventListener('click', (e) => {
+                preventDefaults(e);
+                if (!this.isGameOver && this.isStarted && !this.isPaused) {
+                    this.rotatePiece();
+                }
+            });
+        }
+        
+        if (btnPause) {
+            btnPause.addEventListener('touchstart', (e) => {
+                preventDefaults(e);
+                if (!this.isGameOver && this.isStarted) {
+                    this.togglePause();
+                }
+            });
+            btnPause.addEventListener('click', (e) => {
+                preventDefaults(e);
+                if (!this.isGameOver && this.isStarted) {
+                    this.togglePause();
+                }
+            });
+        }
+        
+        // Prevent scrolling and zooming on the game area
+        document.addEventListener('touchmove', (e) => {
+            if (e.target.closest('.game-container')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
     }
     
     gameLoop(time = 0) {
